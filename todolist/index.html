@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>오늘의 할일</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>오늘의 할일</h1>
+      <p class="date" id="today-date"></p>
+    </header>
+
+    <p class="notice" id="storage-notice" hidden>이 브라우저에서는 저장되지 않아요. 페이지를 닫으면 할일이 사라집니다.</p>
+
+    <section class="progress" id="progress" hidden aria-label="진행률">
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <p class="progress-text" id="progress-text"></p>
+    </section>
+
+    <div class="banner" id="carry-banner" hidden>
+      <p class="banner-text" id="carry-text"></p>
+      <div class="banner-actions">
+        <button class="banner-btn primary" type="button" id="carry-import">가져오기</button>
+        <button class="banner-btn" type="button" id="carry-dismiss">닫기</button>
+      </div>
+    </div>
+
+    <form class="todo-form" id="todo-form" autocomplete="off">
+      <input class="todo-input" id="todo-input" type="text" maxlength="100"
+             placeholder="할 일을 입력하세요..." aria-label="새 할일" autofocus>
+      <select class="prio-select" id="prio-select" aria-label="우선순위">
+        <option value="high">높음</option>
+        <option value="mid" selected>보통</option>
+        <option value="low">낮음</option>
+      </select>
+      <button class="add-btn" type="submit">추가</button>
+    </form>
+
+    <nav class="filters" id="filters" aria-label="필터">
+      <button class="filter-btn" type="button" data-filter="all">전체</button>
+      <button class="filter-btn" type="button" data-filter="active">진행 중</button>
+      <button class="filter-btn" type="button" data-filter="done">완료</button>
+    </nav>
+
+    <ul class="todo-list" id="todo-list"></ul>
+
+    <p class="empty" id="empty-state" hidden></p>
+
+    <footer class="footer" id="footer" hidden>
+      <span id="remaining"></span>
+      <button class="clear-btn" type="button" id="clear-done">완료 항목 지우기</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "todolist",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:\\Users\\이종현\\AppData\\Local\\Temp\\claude\\C--work\\771e9b82-affb-46b9-8ccf-767efa339c14\\scratchpad\\serve.js", "C:\\work\\todolist"],
+      "port": 5173
+    }
+  ]
+}
