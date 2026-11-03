@@ -28,10 +28,18 @@ export type PostSummary = Omit<Post, "content" | "comments"> & { commentCount: n
 
 export type PostInput = Pick<Post, "title" | "content" | "author" | "category">;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set. Add it to .env.local.");
-}
-const sql = neon(process.env.DATABASE_URL);
+// Created on first query so that importing this module (e.g. during `next build`)
+// does not require DATABASE_URL to be set.
+let client: ReturnType<typeof neon> | undefined;
+const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => {
+  if (!client) {
+    if (!process.env.DATABASE_URL) {
+      throw new Error("DATABASE_URL is not set. Add it to .env.local or the Vercel project settings.");
+    }
+    client = neon(process.env.DATABASE_URL);
+  }
+  return client(strings, ...values) as Promise<Row[]>;
+});
 
 type Row = Record<string, unknown>;
 const iso = (v: unknown) => (v instanceof Date ? v : new Date(String(v))).toISOString();
@@ -84,7 +92,7 @@ function ensureSchema() {
     await sql`CREATE INDEX IF NOT EXISTS comments_post_id_idx ON comments(post_id)`;
 
     const [{ count }] = await sql`SELECT count(*)::int AS count FROM posts`;
-    if (count > 0) return;
+    if (Number(count) > 0) return;
     const [welcome] = await sql`
       INSERT INTO posts (title, content, author, category, views, created_at, updated_at)
       VALUES (
@@ -128,7 +136,7 @@ export async function listPosts({ q, category, page = 1, pageSize = 10 }: ListOp
     WHERE (${cat}::text IS NULL OR category = ${cat})
       AND (${pattern}::text IS NULL OR title ILIKE ${pattern} OR content ILIKE ${pattern} OR author ILIKE ${pattern})`;
 
-  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const totalPages = Math.max(1, Math.ceil(Number(total) / pageSize));
   const current = Math.min(Math.max(1, page), totalPages);
 
   const rows = await sql`
@@ -140,7 +148,7 @@ export async function listPosts({ q, category, page = 1, pageSize = 10 }: ListOp
     ORDER BY p.created_at DESC
     LIMIT ${pageSize} OFFSET ${(current - 1) * pageSize}`;
 
-  return { items: rows.map(toSummary), total: total as number, page: current, totalPages, pageSize };
+  return { items: rows.map(toSummary), total: Number(total), page: current, totalPages, pageSize };
 }
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
