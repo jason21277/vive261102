@@ -1,4 +1,4 @@
-{
+﻿{
   "version": "0.0.1",
   "configurations": [
     {
@@ -13,6 +13,14 @@
       "runtimeArgs": ["-m", "http.server", "8765", "--directory", "C:\\work\\DemoPort"],
       "port": 8765,
       "autoPort": false
+    },
+    {
+      "name": "demoboard",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:\\work\\DemoBoard", "run", "dev", "--", "-p", "3100"],
+      "port": 3100,
+      "autoPort": false
     }
   ]
 }
+
