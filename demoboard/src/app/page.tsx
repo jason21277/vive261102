@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { unstable_rethrow } from "next/navigation";
 import { Suspense } from "react";
 
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatDate } from "@/lib/format";
-import { CATEGORIES, listPosts } from "@/lib/posts";
+import { CATEGORIES, describeDbError, listPosts } from "@/lib/posts";
 import { cn } from "@/lib/utils";
 
 type SearchParams = Promise<{ q?: string; category?: string; page?: string }>;
@@ -42,7 +43,19 @@ function buildHref(params: { q?: string; category?: string; page?: number }) {
 
 async function Board({ searchParams }: { searchParams: SearchParams }) {
   const { q = "", category = "", page } = await searchParams;
-  const result = await listPosts({ q, category, page: Number(page) || 1 });
+  let result: Awaited<ReturnType<typeof listPosts>>;
+  try {
+    result = await listPosts({ q, category, page: Number(page) || 1 });
+  } catch (err) {
+    unstable_rethrow(err); // let Next.js handle its own control-flow errors (e.g. prerender aborts)
+    console.error(err);
+    return (
+      <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm">
+        <p className="font-medium text-destructive">데이터베이스에 연결하지 못했습니다.</p>
+        <p className="mt-1 break-words text-muted-foreground">{describeDbError(err)}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

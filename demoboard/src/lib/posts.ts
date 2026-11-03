@@ -1,6 +1,7 @@
 import "server-only";
 
 import { neon } from "@neondatabase/serverless";
+import { connection } from "next/server";
 
 export const CATEGORIES = ["공지", "자유", "질문", "정보"] as const;
 export type Category = (typeof CATEGORIES)[number];
@@ -42,6 +43,15 @@ const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => {
 });
 
 type Row = Record<string, unknown>;
+
+/** A user-facing explanation of a DB failure, with any connection string masked. */
+export function describeDbError(err: unknown) {
+  if (!process.env.DATABASE_URL) {
+    return "환경 변수 DATABASE_URL이 설정되지 않았습니다. Vercel 프로젝트의 Settings → Environment Variables에 추가한 뒤 다시 배포하세요.";
+  }
+  const message = err instanceof Error ? err.message : String(err);
+  return message.replace(/postgres(ql)?:\/\/\S+/gi, "postgresql://***");
+}
 const iso = (v: unknown) => (v instanceof Date ? v : new Date(String(v))).toISOString();
 
 function toSummary(r: Row): PostSummary {
@@ -127,6 +137,7 @@ export type ListOptions = {
 };
 
 export async function listPosts({ q, category, page = 1, pageSize = 10 }: ListOptions) {
+  await connection(); // query at request time only, never during prerendering
   await ensureSchema();
   const cat = category && (CATEGORIES as readonly string[]).includes(category) ? category : null;
   const pattern = q ? `%${q.replace(/[\\%_]/g, (m) => `\\${m}`)}%` : null;
@@ -155,6 +166,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 export async function getPost(id: string): Promise<Post | null> {
   if (!UUID_RE.test(id)) return null;
+  await connection();
   await ensureSchema();
   const [row] = await sql`SELECT * FROM posts WHERE id = ${id}`;
   if (!row) return null;
@@ -165,11 +177,13 @@ export async function getPost(id: string): Promise<Post | null> {
 
 export async function incrementViews(id: string) {
   if (!UUID_RE.test(id)) return;
+  await connection();
   await ensureSchema();
   await sql`UPDATE posts SET views = views + 1 WHERE id = ${id}`;
 }
 
 export async function createPost(input: PostInput) {
+  await connection();
   await ensureSchema();
   const [row] = await sql`
     INSERT INTO posts (title, content, author, category)
@@ -180,6 +194,7 @@ export async function createPost(input: PostInput) {
 
 export async function updatePost(id: string, input: PostInput) {
   if (!UUID_RE.test(id)) return null;
+  await connection();
   await ensureSchema();
   const [row] = await sql`
     UPDATE posts
@@ -192,12 +207,14 @@ export async function updatePost(id: string, input: PostInput) {
 
 export async function deletePost(id: string) {
   if (!UUID_RE.test(id)) return;
+  await connection();
   await ensureSchema();
   await sql`DELETE FROM posts WHERE id = ${id}`;
 }
 
 export async function addComment(postId: string, author: string, content: string) {
   if (!UUID_RE.test(postId)) return;
+  await connection();
   await ensureSchema();
   await sql`
     INSERT INTO comments (post_id, author, content)
@@ -206,6 +223,7 @@ export async function addComment(postId: string, author: string, content: string
 
 export async function deleteComment(postId: string, commentId: string) {
   if (!UUID_RE.test(postId) || !UUID_RE.test(commentId)) return;
+  await connection();
   await ensureSchema();
   await sql`DELETE FROM comments WHERE id = ${commentId} AND post_id = ${postId}`;
 }
