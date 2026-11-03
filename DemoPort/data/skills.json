@@ -1,0 +1,18 @@
+[
+  {
+    "category": "Backend",
+    "items": ["Python", "Flask", "FastAPI", "Django", "REST API"]
+  },
+  {
+    "category": "Frontend",
+    "items": ["HTML5", "CSS3", "JavaScript"]
+  },
+  {
+    "category": "WMS Domain",
+    "items": ["입고·출고 관리", "재고·로케이션 관리", "피킹/패킹", "바코드/RFID 연동"]
+  },
+  {
+    "category": "Data / Infra",
+    "items": ["SQL (RDBMS)", "Git", "Linux"]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "title": "WMS 입출고 관리 시스템",
+    "period": "20XX.XX – 20XX.XX",
+    "role": "백엔드 / 화면 개발",
+    "problem": "수기·엑셀로 관리하던 입출고 내역 때문에 재고 불일치가 잦았음.",
+    "solution": "Python 기반 입출고 API와 바코드 스캔 화면을 구축해 실시간 재고 반영.",
+    "result": "재고 불일치율 N% 감소 (예시 수치)",
+    "tags": ["Python", "WMS", "HTML5"],
+    "links": { "demo": "", "github": "" }
+  },
+  {
+    "title": "로케이션 기반 피킹 최적화",
+    "period": "20XX.XX – 20XX.XX",
+    "role": "알고리즘 / 백엔드",
+    "problem": "피킹 동선이 길어 출고 리드타임이 늘어남.",
+    "solution": "로케이션 좌표 기반으로 피킹 순서를 정렬하는 배치 로직 개발.",
+    "result": "작업자 1인당 피킹 시간 N% 단축 (예시 수치)",
+    "tags": ["Python", "WMS"],
+    "links": { "demo": "", "github": "" }
+  },
+  {
+    "title": "현장용 모바일 웹 화면",
+    "period": "20XX.XX – 20XX.XX",
+    "role": "프론트엔드",
+    "problem": "PDA 전용 앱 유지보수 비용이 높음.",
+    "solution": "HTML5 반응형 웹으로 PDA·태블릿 공용 작업 화면 구현.",
+    "result": "단말 종류와 무관하게 동일 화면 제공 (예시)",
+    "tags": ["HTML5", "WMS"],
+    "links": { "demo": "", "github": "" }
+  }
+]

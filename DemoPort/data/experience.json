@@ -1,0 +1,14 @@
+[
+  {
+    "company": "회사명 (입력 필요)",
+    "period": "20XX.XX – 현재",
+    "role": "WMS 개발자",
+    "highlights": ["WMS 입출고·재고 모듈 개발", "Python 기반 API 설계 및 운영"]
+  },
+  {
+    "company": "회사명 (입력 필요)",
+    "period": "20XX.XX – 20XX.XX",
+    "role": "웹 개발자",
+    "highlights": ["HTML5 기반 사내 웹 시스템 개발"]
+  }
+]

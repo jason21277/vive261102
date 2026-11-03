@@ -6,6 +6,13 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["C:\\Users\\이종현\\AppData\\Local\\Temp\\claude\\C--work\\771e9b82-affb-46b9-8ccf-767efa339c14\\scratchpad\\serve.js", "C:\\work\\todolist"],
       "port": 5173
+    },
+    {
+      "name": "demoport",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "C:\\work\\DemoPort"],
+      "port": 8765,
+      "autoPort": false
     }
   ]
 }

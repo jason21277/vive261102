@@ -1,0 +1,21 @@
+{
+  "name": "이종현",
+  "nameEn": "Lee Jonghyun",
+  "role": "Python · WMS Developer",
+  "tagline": "현장 물류를 코드로 최적화하는 WMS 개발자",
+  "focus": ["Python", "HTML5", "WMS"],
+  "email": "leejonghyun.gs@gmail.com",
+  "about": [
+    "Python 백엔드와 HTML5 웹 화면을 함께 다루며, 창고관리시스템(WMS)을 주력으로 개발하고 있습니다.",
+    "입고부터 출고까지 물류 현장의 흐름을 이해하고, 작업자가 실제로 쓰기 편한 시스템을 만드는 것을 중요하게 생각합니다."
+  ],
+  "stats": [
+    { "label": "경력", "value": "N년+" },
+    { "label": "WMS 프로젝트", "value": "N건" },
+    { "label": "주력 언어", "value": "Python" }
+  ],
+  "links": [
+    { "label": "GitHub", "url": "" },
+    { "label": "Blog", "url": "" }
+  ]
+}

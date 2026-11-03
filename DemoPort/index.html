@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이종현 | Python · WMS Developer</title>
+  <meta name="description" content="Python, HTML5, WMS 개발을 주력으로 하는 개발자 이종현의 프로필">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="이종현 | Python · WMS Developer">
+  <meta property="og:description" content="Python, HTML5, WMS 개발을 주력으로 하는 개발자 이종현의 프로필">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    // 첫 렌더 전에 테마를 적용해 깜빡임 방지
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved) document.documentElement.dataset.theme = saved;
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="주요 메뉴">
+      <a class="nav-logo" href="#hero">DemoPort</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li>
+          <button class="theme-toggle" type="button" aria-label="다크 모드 전환">
+            <span class="theme-icon" aria-hidden="true"></span>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="hero">
+      <div class="container">
+        <p class="hero-role mono" data-bind="role"></p>
+        <h1 class="hero-name">
+          안녕하세요,<br><span data-bind="name"></span>입니다.
+        </h1>
+        <p class="hero-tagline" data-bind="tagline"></p>
+        <ul class="tag-list hero-focus" data-list="focus"></ul>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contact">연락하기</a>
+          <a class="btn btn-ghost" href="#projects">프로젝트 보기</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <h2 class="section-title" id="about-title"><span class="mono">01.</span> About</h2>
+        <div class="about-grid">
+          <div class="about-text" data-list="about"></div>
+          <dl class="stats" data-list="stats"></dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <h2 class="section-title" id="skills-title"><span class="mono">02.</span> Skills</h2>
+        <div class="skills-grid" id="skills-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 class="section-title" id="projects-title"><span class="mono">03.</span> Projects</h2>
+        <div class="filter" role="group" aria-label="프로젝트 필터" id="project-filter"></div>
+        <div class="projects-grid" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="container">
+        <h2 class="section-title" id="experience-title"><span class="mono">04.</span> Experience</h2>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-inner">
+        <h2 class="section-title" id="contact-title"><span class="mono">05.</span> Contact</h2>
+        <p class="contact-lead">새로운 프로젝트, 협업, 채용 제안 모두 환영합니다.</p>
+        <p class="contact-email mono"><a data-bind-email href=""></a></p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" data-bind-mailto href="">이메일 보내기</a>
+          <button class="btn btn-ghost" type="button" id="copy-email">주소 복사</button>
+        </div>
+        <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> <span data-bind="nameEn"></span>. All rights reserved.</p>
+      <ul class="footer-links" id="footer-links"></ul>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
