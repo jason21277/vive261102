@@ -32,12 +32,19 @@ export type PostInput = Pick<Post, "title" | "content" | "author" | "category">;
 // Created on first query so that importing this module (e.g. during `next build`)
 // does not require DATABASE_URL to be set.
 let client: ReturnType<typeof neon> | undefined;
+
+// Tolerates values pasted with surrounding quotes or whitespace (e.g. copied from .env.local).
+function databaseUrl() {
+  return process.env.DATABASE_URL?.trim().replace(/^["']+|["']+$/g, "").trim();
+}
+
 const sql = ((strings: TemplateStringsArray, ...values: unknown[]) => {
   if (!client) {
-    if (!process.env.DATABASE_URL) {
+    const url = databaseUrl();
+    if (!url) {
       throw new Error("DATABASE_URL is not set. Add it to .env.local or the Vercel project settings.");
     }
-    client = neon(process.env.DATABASE_URL);
+    client = neon(url);
   }
   return client(strings, ...values) as Promise<Row[]>;
 });
@@ -46,7 +53,7 @@ type Row = Record<string, unknown>;
 
 /** A user-facing explanation of a DB failure, with any connection string masked. */
 export function describeDbError(err: unknown) {
-  if (!process.env.DATABASE_URL) {
+  if (!databaseUrl()) {
     return "환경 변수 DATABASE_URL이 설정되지 않았습니다. Vercel 프로젝트의 Settings → Environment Variables에 추가한 뒤 다시 배포하세요.";
   }
   const message = err instanceof Error ? err.message : String(err);
